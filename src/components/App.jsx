@@ -23,21 +23,9 @@ let perPage = 12;
 let totalHits = 0;
 let largeImageURL = '';
 let alt = '';
-// let scroll = false;
 
 export const App = () => {
   const galleryRef = useRef();
-  // this.state = {
-  //   // searchPchrase: '',
-  //   data: [],
-  //   isData: false,
-  //   isPages: false,
-  //   isLoading: false,
-  //   // currentPage: 1,
-  //   // largeImageURL: '',
-  //   // alt: '',
-  //   isModal: false,
-  // };
 
   const [data, setData] = useState([]);
   const [isData, setIsData] = useState(false);
@@ -45,24 +33,6 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
-  // const [largeImageURL, setLargeImageURL] = useState('');
-  // const [alt, setAlt] = useState('');
-
-  // galleryRef = React.createRef();
-  // let searchPchrase = '';
-  // let currentPage = 1;
-  // let scroll = false;
-  // componentDidUpdate() {
-  //   if (scroll) {
-  //     const cardElement = this.galleryRef.current.firstElementChild;
-  //     const { height: cardHeight } = cardElement.getBoundingClientRect();
-
-  //     window.scrollBy({
-  //       top: cardHeight * 3,
-  //       behavior: 'smooth',
-  //     });
-  //   }
-  // }
 
   useEffect(() => {
     if (isScroll) {
@@ -81,24 +51,6 @@ export const App = () => {
     searchPchrase = evt.target.form.inputsearch.value;
     currentPage = 1;
     setIsLoading(true);
-    // this.setState(
-    //   prevState => {
-    //     return { isLoading: true };
-    //   },
-    //   async () => {
-    //     try {
-    //       const response = await this.getDataFromServer();
-    //       if (response.code !== 'ERR_NETWORK') {
-    //         this.dataToDisplayPreparation(response);
-    //       } else {
-    //         Notiflix.Notify.failure(`${response.code}`);
-    //         this.setState({ isLoading: false });
-    //       }
-    //     } catch (error) {
-    //       Notiflix.Notify.failure(`${error}`);
-    //     }
-    //   }
-    // );
     try {
       const response = await getDataFromServer();
       if (response.code !== 'ERR_NETWORK') {
@@ -114,7 +66,6 @@ export const App = () => {
   };
 
   function dataToDisplayPreparation(response) {
-    // scroll = false;
     setIsScroll(false);
     if (window.scrollY > 0) {
       window.scrollBy({
@@ -126,26 +77,13 @@ export const App = () => {
       Notiflix.Notify.success(`You have ${totalHits} hits`);
       Notiflix.Notify.success(`Now loading ${response.length}`);
       if (totalHits > perPage) {
-        // this.setState(prevState => {
-        //   return { isPages: true };
-        // });
         setIsPages(true);
       } else {
-        // this.setState(prevState => {
-        //   return { isPages: false };
-        // });
         setIsPages(false);
       }
-      // this.setState(prevState => {
-      //   return { isData: true, data: [...response] };
-      // });
       setIsData(true);
-      //setData([]);
       setData([...response]);
     } else {
-      // this.setState(prevState => {
-      //   return { isData: false, data: [], isPages: false };
-      // });
       setIsData(false);
       setData([]);
       setIsPages(false);
@@ -154,41 +92,14 @@ export const App = () => {
   }
 
   const handleLoadMore = async evt => {
-    // console.log(currentPage);
-    // console.log(searchPchrase);
     currentPage += 1;
-    // console.log(currentPage);
-    // console.log(searchPchrase);
-    // this.setState(prevState => {
-    //   return { currentPage: prevState.currentPage + 1 };
-    // });
     setIsLoading(true);
-    // this.setState(
-    //   prevState => {
-    //     return { isLoading: true };
-    //   },
-    //   async () => {
-    //     try {
-    //       const response = await this.getDataFromServer();
-    //       if (response.code !== 'ERR_NETWORK') {
-    //         this.dataToAddDisplayPreparation(response);
-    //       } else {
-    //         Notiflix.Notify.failure(`${response.code}`);
-    //         this.setState({ isLoading: false });
-    //       }
-    //     } catch (error) {
-    //       Notiflix.Notify.failure(`${error}`);
-    //     }
-    //   }
-    // );
-
     try {
       const response = await getDataFromServer();
       if (response.code !== 'ERR_NETWORK') {
         dataToAddDisplayPreparation(response);
       } else {
         Notiflix.Notify.failure(`${response.code}`);
-        // this.setState({ isLoading: false });
         setIsLoading(false);
       }
     } catch (error) {
@@ -199,8 +110,6 @@ export const App = () => {
   function dataToAddDisplayPreparation(response) {
     Notiflix.Notify.success(`You have ${totalHits} hits`);
     Notiflix.Notify.success(`Now loading ${response.length} more`);
-    // scroll = true;
-    // setIsScroll(false);
     let totalPages = 0;
     if (totalHits % perPage !== 0) {
       totalPages = Math.trunc(totalHits / perPage) + 1;
@@ -208,14 +117,8 @@ export const App = () => {
       totalPages = totalHits / perPage;
     }
     if (totalPages === currentPage) {
-      // this.setState(prevState => {
-      //   return { isPages: false };
-      // });
       setIsPages(false);
     }
-    // this.setState(prevState => {
-    //   return { isData: true, data: [...prevState.data, ...response] };
-    // });
     setIsData(true);
     setData([...data, ...response]);
     setIsScroll(true);
@@ -226,23 +129,8 @@ export const App = () => {
       return;
     }
     window.addEventListener('keyup', handleModalKeyDown);
-    // console.log(evt.target.dataset.img);
-    // console.log(evt.target.dataset.alt);
-    // console.log(largeImageURL);
-    // console.log(alt);
     largeImageURL = evt.target.dataset.img;
     alt = evt.target.dataset.alt;
-    // setLargeImageURL(evt.target.dataset.img);
-    // setAlt(evt.target.dataset.alt);
-    // console.log(largeImageURL);
-    // console.log(alt);
-    // this.setState(prevState => {
-    //   return {
-    //     isModal: true,
-    //     // largeImageURL: evt.target.dataset.img,
-    //     // alt: evt.target.dataset.alt,
-    //   };
-    // });
     setIsModal(true);
   };
 
@@ -250,15 +138,6 @@ export const App = () => {
     if (evt.target.nodeName === 'DIV') {
       largeImageURL = '';
       alt = '';
-      // setLargeImageURL('');
-      // setAlt('');
-      // this.setState(prevState => {
-      //   return {
-      //     isModal: false,
-      //     // largeImageURL: '',
-      //     // alt: '',
-      //   };
-      // });
       setIsModal(false);
       window.removeEventListener('keyup', handleModalKeyDown);
     }
@@ -267,8 +146,6 @@ export const App = () => {
   const handleModalKeyDown = evt => {
     largeImageURL = '';
     alt = '';
-    // setLargeImageURL('');
-    // setAlt('');
     evt = evt || window.event;
     let isEscape = false;
     if ('key' in evt) {
@@ -277,13 +154,6 @@ export const App = () => {
       isEscape = evt.keyCode === 27;
     }
     if (isEscape) {
-      // this.setState(prevState => {
-      //   return {
-      //     isModal: false,
-      //     // largeImageURL: '',
-      //     // alt: '',
-      //   };
-      // });
       setIsModal(false);
       window.removeEventListener('keyup', handleModalKeyDown);
     }
@@ -300,7 +170,6 @@ export const App = () => {
     try {
       const response = await axiosData(header, parameters);
       if (response.code !== 'ERR_NETWORK') {
-        //this.setState({ isLoading: false });
         setIsLoading(false);
         totalHits = response.data.totalHits;
         let filteredResponse = [];
@@ -315,7 +184,6 @@ export const App = () => {
         return response;
       }
     } catch (error) {
-      //this.setState({ isLoading: false });
       setIsLoading(false);
       Notiflix.Notify.failure(`${error}`);
       return error;

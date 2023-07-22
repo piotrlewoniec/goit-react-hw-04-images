@@ -4,7 +4,7 @@ export const headerDefaultGet = {
 };
 
 export const headerDefaultUrl = {
-  baseURL: 'https://pixabay.com/api',
+  baseURL: 'https://pixabay.com/api/',
 };
 
 export const paramsDefaultUrl = {
